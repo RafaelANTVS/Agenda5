@@ -6,7 +6,7 @@ typedef struct {
     char telefone[20];
 } Agenda;
 
-typedef enum {OK, MAX_AGENDA, SEM_CONTATOS, NAO_ENCONTRADO, ABRIR, FECHAR, ESCREVER, LER} ERROS;
+typedef enum {OK, MAX_AGENDA, SEM_CONTATOS, NAO_ENCONTRADO, ABRIR, FECHAR, ESCREVER, LER, AGENDA_LOTADA, TELEFONE_EXISTENTE} ERROS;
 
 ERROS criar(Agenda contatos[], int *pos);
 ERROS deletar(Agenda contatos[], char *telefone, int *pos);

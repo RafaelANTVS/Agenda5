@@ -3,8 +3,27 @@
 #include "contatos.h"
 
 ERROS criar(Agenda contatos[], int *pos) {
-    if (*pos >= TOTAL)
+    char telefone_digitar[20]; // Adicionei a declaração do array de char para armazenar o telefone digitado
+    int i;
+
+    if (*pos >= TOTAL) { // Corrigido: Adicionei chaves para delimitar o bloco de código
         printf("Agenda lotada!");
+        return AGENDA_LOTADA; // Corrigido: Retornei um erro quando a agenda estiver lotada
+    }
+
+    printf("Entre com o telefone: ");
+    scanf("%19s", telefone_digitar); // Corrigido: Armazenei o telefone digitado na variável 'telefone_digitar'
+
+    // Verifica se o telefone já existe na agenda
+    for (i = 0; i < *pos; i++) {
+        if (strcmp(contatos[i].telefone, telefone_digitar) == 0) { // Corrigido: Usei strcmp para comparar strings
+            printf("Telefone já existente!\n");
+            return TELEFONE_EXISTENTE; // Corrigido: Retornei um erro quando o telefone já existir
+        }
+    }
+
+    // Se o telefone não existir na agenda, continue com a inserção
+    strcpy(contatos[*pos].telefone, telefone_digitar); // Corrigido: Copiei o telefone digitado para o array de contatos
 
     printf("Entre com o nome do contato: ");
     scanf("%99s", contatos[*pos].nome);
@@ -14,14 +33,11 @@ ERROS criar(Agenda contatos[], int *pos) {
     scanf("%99s", contatos[*pos].email);
     clearBuffer();
 
-    printf("Entre com o telefone: ");
-    scanf("%19s", contatos[*pos].telefone);
-    clearBuffer();
-
     (*pos)++;
 
     return OK;
 }
+
 ERROS listar(Agenda contatos[], int *pos) {
     if (*pos == 0)
         printf("Sem contatos para exibir!");
