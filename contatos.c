@@ -2,28 +2,26 @@
 #include <string.h>
 #include "contatos.h"
 
-ERROS criar(Agenda contatos[], int *pos) {
-    char telefone_digitar[20]; // Adicionei a declaração do array de char para armazenar o telefone digitado
+ERROS criar(Agenda contatos[], int *pos, int type) {
+    char telefone_digitar[20];
     int i;
 
-    if (*pos >= TOTAL) { // Corrigido: Adicionei chaves para delimitar o bloco de código
+    if (*pos >= TOTAL) { 
         printf("Agenda lotada!");
-        return AGENDA_LOTADA; // Corrigido: Retornei um erro quando a agenda estiver lotada
+        return AGENDA_LOTADA;
     }
 
     printf("Entre com o telefone: ");
-    scanf("%19s", telefone_digitar); // Corrigido: Armazenei o telefone digitado na variável 'telefone_digitar'
+    scanf("%19s", telefone_digitar);
 
-    // Verifica se o telefone já existe na agenda
     for (i = 0; i < *pos; i++) {
-        if (strcmp(contatos[i].telefone, telefone_digitar) == 0) { // Corrigido: Usei strcmp para comparar strings
+        if (strcmp(contatos[i].telefone, telefone_digitar) == 0) {
             printf("Telefone já existente!\n");
-            return TELEFONE_EXISTENTE; // Corrigido: Retornei um erro quando o telefone já existir
+            return TELEFONE_EXISTENTE;
         }
     }
 
-    // Se o telefone não existir na agenda, continue com a inserção
-    strcpy(contatos[*pos].telefone, telefone_digitar); // Corrigido: Copiei o telefone digitado para o array de contatos
+    strcpy(contatos[*pos].telefone, telefone_digitar);
 
     printf("Entre com o nome do contato: ");
     scanf("%99s", contatos[*pos].nome);
@@ -38,18 +36,18 @@ ERROS criar(Agenda contatos[], int *pos) {
     return OK;
 }
 
-ERROS listar(Agenda contatos[], int *pos) {
+ERROS listar(Agenda contatos[], int *pos, int type) {
     if (*pos == 0)
         printf("Sem contatos para exibir!");
 
     for (int i = 0; i < *pos; i++) {
-        printAgenda(contatos[i], i + 1);
+        printAgenda(contatos[i], i + 1, type);
     }
 
     return OK;
 }
 
-ERROS deletar(Agenda contatos[], char *telefone, int *pos) {
+ERROS deletar(Agenda contatos[], char *telefone, int *pos, int type) {
     int i;
     int encontrado = 0;
 
@@ -71,19 +69,15 @@ ERROS deletar(Agenda contatos[], char *telefone, int *pos) {
             break;
         }
     }
-    for(int i=0; i<*pos; i++){
-        printf("Pos: %c\t", i+1);
-        printf("Nome: %s\t", contatos[i].nome);
-        printf("email: %s\t", contatos[i].email);
-        printf("telefone: %s\n", contatos[i].telefone);
+
     if (!encontrado) {
         printf("Contato com o número de telefone %s não encontrado.\n", telefone);
         return NAO_ENCONTRADO;
     }
 
     return OK;
-    }
 }
+
 ERROS salvar(Agenda contatos[], int *pos, int tamanho) {
     FILE *f = fopen("agenda.bin", "wb");
     if (f == NULL)
@@ -96,17 +90,11 @@ ERROS salvar(Agenda contatos[], int *pos, int tamanho) {
     }
     if (fwrite(pos, sizeof(int), 1, f) != 1) {
         fclose(f);
-
-    int qtd = fwrite(contatos, sizeof(Agenda), *pos, f);
-    if (qtd != *pos)
-        return ESCREVER;
-
-    if (fwrite(pos, sizeof(int), 1, f) != 1)
         return ESCREVER;
     }
     if (fclose(f) != 0)
         return FECHAR;
-        printf("Arquivo salvo com sucesso!");
+    printf("Arquivo salvo com sucesso!");
     return OK;
 }
 
@@ -126,15 +114,14 @@ ERROS carregar(Agenda contatos[], int *pos, int tamanho) {
     printf("Arquivo aberto com sucesso!");
     return OK;
 }
-void printAgenda(Agenda contatos, int pos) {
+
+void printAgenda(Agenda contatos, int pos, int type) {
     printf("\nPosicao: %d\t", pos);
     printf("Nome: %s\tEmail: %s\t", contatos.nome, contatos.email);
     printf("Telefone: %s\n", contatos.telefone);
 }
 
-
 void clearBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
-
 }
