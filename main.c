@@ -1,11 +1,14 @@
-#include <stdio.h>
+
 #include <stdio.h>
 #include "contatos.h"
 
 int main() {
     int opcao;
+    int opcao2;
     int pos = 0;
+    int pos_trabalho = 0;
     Agenda contatos[TOTAL];
+    Agenda contatos_trabalho[TOTAL];
 
     do {
         printf("\nMenu principal\n");
@@ -21,17 +24,37 @@ int main() {
 
         switch (opcao) {
             case 1:
-                criar(contatos, &pos);
+                printf("Pessoal ou trabalho? (0 - pessoal, 1 - trabalho): ");
+                scanf("%d", &opcao2);
+                if (opcao2 == 0) {
+                    criar(contatos, &pos, 0);
+                } else if (opcao2 == 1) {
+                    criar(contatos_trabalho, &pos_trabalho, 1);
+                }
                 break;
-            case 2: {
-                char telefone_a_remover[20];
-                printf("Digite o número de telefone do contato que deseja remover: ");
-                scanf("%19s", telefone_a_remover);
-                deletar(contatos, telefone_a_remover, &pos);
+            case 2:
+                printf("Pessoal ou trabalho? (0 - pessoal, 1 - trabalho): ");
+                scanf("%d", &opcao2);
+                if (opcao2 == 0) {
+                    char telefone_a_remover[20];
+                    printf("Digite o número de telefone do contato que deseja remover: ");
+                    scanf("%19s", telefone_a_remover);
+                    deletar(contatos, telefone_a_remover, &pos, 0);
+                } else if (opcao2 == 1) {
+                    char telefone_a_remover[20];
+                    printf("Digite o número de telefone do contato que deseja remover: ");
+                    scanf("%19s", telefone_a_remover);
+                    deletar(contatos_trabalho, telefone_a_remover, &pos_trabalho, 1);
+                }
                 break;
-}
             case 3:
-                listar(contatos, &pos);
+                printf("Pessoal ou trabalho? (0 - pessoal, 1 - trabalho): ");
+                scanf("%d", &opcao2);
+                if (opcao2 == 0) {
+                    listar(contatos, &pos, 0);
+                } else if (opcao2 == 1) {
+                    listar(contatos_trabalho, &pos_trabalho, 1);
+                }
                 break;
             case 4:
                 salvar(contatos, &pos, TOTAL);
