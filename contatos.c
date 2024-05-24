@@ -27,9 +27,24 @@ ERROS criar(Agenda contatos[], int *pos, int type) {
     scanf("%99s", contatos[*pos].nome);
     clearBuffer();
 
-    printf("Entre com o email: ");
-    scanf("%99s", contatos[*pos].email);
-    clearBuffer();
+    char email[100];
+    int emailValido = 0;
+    do {
+        printf("Entre com o email: ");
+        scanf("%99s", email);
+        clearBuffer();
+
+        const char *arroba = strchr(email, '@');
+        const char *ponto = arroba ? strchr(arroba, '.') : NULL;
+
+        if (arroba && ponto && arroba != email && ponto > arroba + 1 && *(ponto + 1) != '\0') {
+            emailValido = 1;
+        } else {
+            printf("Email inválido! Tente novamente.\n");
+        }
+    } while (!emailValido);
+
+    strcpy(contatos[*pos].email, email);
 
     (*pos)++;
 
