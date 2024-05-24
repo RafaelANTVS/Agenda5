@@ -161,36 +161,56 @@ ERROS mudar(Agenda contatos[], int *pos, int tamanho, int type){
                 }
             }
         } else if ( opcao == 2) {
-            printf("Digite o telefone do contato a ser mudado\n");
-            scanf("%s", telefone);
-        for (i = 0; i < *pos; i++){
-            if (strcmp(contatos[i].telefone,telefone) ==0){
-                printf("Digite o novo telefone: \n");
-                scanf("%s", NovoTelefone);
-                strcpy(contatos[j].telefone, NovoTelefone);
-                printf("O contato foi mudado com sucesso!\n");
-                printf("Novo telofone:%s\n", contatos[j].telefone);
+    printf("Digite o telefone do contato a ser mudado\n");
+    scanf("%s", telefone);
+    for (i = 0; i < *pos; i++){
+        if (strcmp(contatos[i].telefone,telefone) ==0){
+            printf("Digite o novo telefone: \n");
+            scanf("%s", NovoTelefone);
+            for (j = 0; j < *pos; j++){
+            if (strcmp(contatos[j].telefone, NovoTelefone) == 0) {
+                printf("Telefone já existente!\n");
+                return TELEFONE_EXISTENTE;
+            }
+            strcpy(contatos[i].telefone, NovoTelefone); 
+            printf("O contato foi mudado com sucesso!\n");
+            printf("Novo telefone:%s\n", contatos[i].telefone); 
+        }
         } else {
             printf("Telefone não encontrado!\n");
-                }
-            }
+        }
+    }
         } else if (opcao == 3){
             printf("Digite o email do contato a ser mudado\n");
             scanf("%s", email);
         for (i = 0; i < *pos; i++){
             if (strcmp(contatos[i].email,email) ==0){
+
+
+                int emailValido = 0;
+                do {
                 printf("Digite o novo email: \n");
-                scanf("%s", NovoEmail);
-                strcpy(contatos[j].email, NovoEmail);
+                scanf("%99s", NovoEmail);
+                clearBuffer();
+
+                const char *arroba = strchr(NovoEmail, '@');
+                const char *ponto = arroba ? strchr(arroba, '.') : NULL;
+
+        if (arroba && ponto && arroba != NovoEmail && ponto > arroba + 1 && *(ponto + 1) != '\0') {
+            emailValido = 1;
+        } else {
+            printf("Email inválido! Tente novamente.\n");
+        }
+    } while (!emailValido);
+                strcpy(contatos[i].email, NovoEmail);
                 printf("O contato foi mudado com sucesso!\n");
-                printf("Novo email:%s\n", contatos[j].email);
+                printf("Novo email:%s\n", contatos[i].email);
         } else {
             printf("Email Não encontrado!\n");
                 }
             }
         }
-}
-
+        }
 
 void clearBuffer() {
     int c;
