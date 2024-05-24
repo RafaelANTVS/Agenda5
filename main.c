@@ -17,6 +17,7 @@ int main() {
         printf("3 - Listar contatos\n");
         printf("4 - Salvar agenda\n");
         printf("5 - Carregar agenda\n");
+        printf("6 - Mudar contato da agenda\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -61,6 +62,15 @@ int main() {
                 break;
             case 5:
                 carregar(contatos, &pos, TOTAL);
+                break;
+            case 6:
+                printf("Pessoal ou trabalho? (0 - pessoal, 1 - trabalho): ");
+                scanf("%d", &opcao2);
+                if (opcao2 == 0) {
+                    mudar(contatos, &pos, 0, TOTAL);
+                } else if (opcao2 == 1) {
+                    mudar(contatos_trabalho, &pos_trabalho, 1, TOTAL);
+                }
                 break;
             case 0:
                 printf("Saindo...\n");
