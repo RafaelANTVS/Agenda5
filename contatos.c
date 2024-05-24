@@ -63,7 +63,7 @@ ERROS listar(Agenda contatos[], int *pos, int type) {
 }
 
 ERROS deletar(Agenda contatos[], char *telefone, int *pos, int type) {
-    int i;
+    int i, j;
     int encontrado = 0;
 
     if (*pos <= 0) {
@@ -74,14 +74,9 @@ ERROS deletar(Agenda contatos[], char *telefone, int *pos, int type) {
         if (strcmp(contatos[i].telefone, telefone) == 0) {
             encontrado = 1;
 
-            for (int j = i; j < *pos - 1; j++) {
                 strcpy(contatos[j].nome, contatos[j + 1].nome);
                 strcpy(contatos[j].email, contatos[j + 1].email);
                 strcpy(contatos[j].telefone, contatos[j + 1].telefone);
-            }
-            (*pos)--;
-            printf("Contato removido com sucesso!\n");
-            break;
         }
     }
 
@@ -135,6 +130,58 @@ void printAgenda(Agenda contatos, int pos, int type) {
     printf("Nome: %s\tEmail: %s\t", contatos.nome, contatos.email);
     printf("Telefone: %s\n", contatos.telefone);
 }
+
+ERROS mudar(Agenda contatos[], int *pos, int tamanho, int type){
+    int i, j,opcao, encontrado = 0;
+    char nome[100], telefone[20], email[100], NovoNome[100],NovoTelefone[20],NovoEmail[100];
+    printf("Qual tipo de mudança?(1-Nome, 2-Telefone, 3-Email) \n");
+    scanf("%d", &opcao);
+
+    if(opcao == 1){
+        printf("Digite o nome do contato a ser mudado\n");
+        scanf("%s", nome);
+        for (i = 0; i < *pos; i++){
+            if (strcmp(contatos[i].nome,nome) ==0){
+                printf("Digite o novo nome: \n");
+                scanf("%s", NovoNome);
+                strcpy(contatos[j].nome, NovoNome);
+                printf("O contato foi mudado com sucesso!\n");
+                printf("Novo nome:%s\n", contatos[j].nome);
+        } else {
+            printf("Nome não encontrado!\n");
+                }
+            }
+        } else if ( opcao == 2) {
+            printf("Digite o telefone do contato a ser mudado\n");
+            scanf("%s", telefone);
+        for (i = 0; i < *pos; i++){
+            if (strcmp(contatos[i].telefone,telefone) ==0){
+                printf("Digite o novo telefone: \n");
+                scanf("%s", NovoTelefone);
+                strcpy(contatos[j].telefone, NovoTelefone);
+                printf("O contato foi mudado com sucesso!\n");
+                printf("Novo telofone:%s\n", contatos[j].telefone);
+        } else {
+            printf("Telefone não encontrado!\n");
+                }
+            }
+        } else if (opcao == 3){
+            printf("Digite o email do contato a ser mudado\n");
+            scanf("%s", email);
+        for (i = 0; i < *pos; i++){
+            if (strcmp(contatos[i].email,email) ==0){
+                printf("Digite o novo email: \n");
+                scanf("%s", NovoEmail);
+                strcpy(contatos[j].email, NovoEmail);
+                printf("O contato foi mudado com sucesso!\n");
+                printf("Novo email:%s\n", contatos[j].email);
+        } else {
+            printf("Email Não encontrado!\n");
+                }
+            }
+        }
+}
+
 
 void clearBuffer() {
     int c;
