@@ -63,7 +63,7 @@ ERROS listar(Agenda contatos[], int *pos, int type) {
 }
 
 ERROS deletar(Agenda contatos[], char *telefone, int *pos, int type) {
-    int i, j;
+    int i;
     int encontrado = 0;
 
     if (*pos <= 0) {
@@ -74,20 +74,29 @@ ERROS deletar(Agenda contatos[], char *telefone, int *pos, int type) {
         if (strcmp(contatos[i].telefone, telefone) == 0) {
             encontrado = 1;
 
+            for (int j = i; j < *pos - 1; j++) {
                 strcpy(contatos[j].nome, contatos[j + 1].nome);
                 strcpy(contatos[j].email, contatos[j + 1].email);
                 strcpy(contatos[j].telefone, contatos[j + 1].telefone);
+            }
+            (*pos)--;
+            printf("Contato removido com sucesso!\n");
+            break;
         }
     }
-
+    for(int i=0; i<*pos; i++){
+        printf("Pos: %c\t", i+1);
+        printf("Nome: %s\t", contatos[i].nome);
+        printf("email: %s\t", contatos[i].email);
+        printf("telefone: %s\n", contatos[i].telefone);
     if (!encontrado) {
         printf("Contato com o número de telefone %s não encontrado.\n", telefone);
         return NAO_ENCONTRADO;
     }
 
     return OK;
+    }
 }
-
 ERROS salvar(Agenda contatos[], int *pos, int tamanho) {
     FILE *f = fopen("agenda.bin", "wb");
     if (f == NULL)
